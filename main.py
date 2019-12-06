@@ -1,5 +1,6 @@
 import sys
 import math
+from fractions import Fraction
 
 class Element(object):
     """docstring for Element."""
@@ -89,14 +90,26 @@ if __name__ == "__main__":
             a = elem.value
         print(elem, end='')
     print(' = 0')
-    if MaxDegree == 2:
+    if MaxDegree == 1:
+        print('The solution is:')
+        if b == 0:
+            print("All reel numbers are solution")
+        else:
+            print(c/b * -1)
+    elif MaxDegree == 2:
         delta = b*b-4*a*c
         if (delta > 0):
             print('Discriminant is strictly positive, the two solutions are:')
             racineDelta = math.sqrt(delta)
             res = (-b-racineDelta)/(2*a)
-            print(res)
+            print('%9.6f | Fraction : ' %res, Fraction(res).limit_denominator(1000))
             res =(-b+racineDelta)/(2*a)
-            print(res)
+            print('%9.6f | Fraction : ' %res, Fraction(res).limit_denominator(1000))
+        elif delta == 0:
+            print('Discriminant is strictly null, the two solutions are:')
+            res =-b/(2*a)
+            print('%9.6f | Fraction : ' %res, Fraction(res).limit_denominator(1000))
+        else:
+            print('Discriminant is strictly nagative, there is no solution')
     elif MaxDegree == 3:
         print("The polynomial degree is stricly greater than 2, I can't solve.")
