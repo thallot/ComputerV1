@@ -65,12 +65,11 @@ if __name__ == "__main__":
             values = GetParam(arg)
         except(ValueError, NameError):
             print ("Oops!  That was no valid equation")
-            exit()
     else:
         try:
             values = GetParam(sys.argv[1])
         except(ValueError, NameError):
-            print ("Oops!  That was no valid equiation")
+            print ("Oops!  That was no valid equation")
             exit()
     a = float(0)
     b = float(0)
