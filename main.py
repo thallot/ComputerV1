@@ -76,9 +76,6 @@ if __name__ == "__main__":
     c = float(0)
     MaxDegree = values[len(values) - 1].degree
     print("Polynomial degree:", MaxDegree)
-    if MaxDegree == 0:
-        print("All reel numbers are solution")
-        exit()
     print("Reduced form:", end=' ')
     for i, elem in enumerate(values):
         if (elem.degree == 0):
@@ -89,10 +86,18 @@ if __name__ == "__main__":
             a = elem.value
         print(elem, end='')
     print(' = 0')
-    if MaxDegree == 1:
+    if MaxDegree == 0:
+        if c == 0:
+            print("All reel numbers are solution")
+        else:
+            print('The solution is:')
+            print('0')
+    elif MaxDegree == 1:
         print('The solution is:')
-        if b == 0:
+        if b == 0 and c !=0:
             print("0")
+        elif b == 0 and c == 0:
+            print("All reel numbers are solution")
         else:
             print(c/b * -1)
     elif MaxDegree == 2:
