@@ -92,7 +92,7 @@ if __name__ == "__main__":
     if MaxDegree == 1:
         print('The solution is:')
         if b == 0:
-            print("All reel numbers are solution")
+            print("0")
         else:
             print(c/b * -1)
     elif MaxDegree == 2:
