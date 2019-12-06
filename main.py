@@ -67,7 +67,7 @@ if __name__ == "__main__":
             exit()
     else:
         try:
-            values = GetParam(arg)
+            values = GetParam(sys.argv[1])
         except(ValueError, NameError):
             print ("Oops!  That was no valid equiation")
             exit()
