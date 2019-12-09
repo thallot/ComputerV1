@@ -78,7 +78,6 @@ def GetParam(arg):
     calcul = arg.split('=')
     BeforeEqual = calcul[0].split()
     values = []
-    push = 0
     if len(calcul) == 1:
         print('No equal sign')
         exit()
@@ -89,6 +88,7 @@ def GetParam(arg):
     AfterEqual = calcul[1].split()
     for i, elem in enumerate(AfterEqual):
         if "X^" in elem and i >= 2:
+            push = 0
             for elm in values:
                 nb, degree, sign = GetData(AfterEqual, i)
                 if degree == elm.degree:
