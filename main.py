@@ -11,6 +11,7 @@ from fractions import Fraction
 from parsing import *
 
 def ReducedForm(values):
+    """ Retourne a b et c. Puis affiche l'équation sous forme réduite """
     a = float(0)
     b = float(0)
     c = float(0)
@@ -27,7 +28,7 @@ def ReducedForm(values):
     return (a,b,c)
 
 if __name__ == "__main__":
-
+    """ Main fonction : Donne le resultat d'un polynome """
     verbose, values = ParseParam(sys)
     MaxDegree = values[len(values) - 1].degree
     print("Polynomial degree:", MaxDegree)

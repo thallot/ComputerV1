@@ -33,7 +33,7 @@ def ParseParam(sys):
     """ Parse les parametre en entrée et retourne le resultat"""
     verbose = 0
     if len(sys.argv) == 1:
-        arg = input('Entrez votre polynome\n')
+        arg = input('Enter data\n')
         values = GetParam(arg)
     else:
         if len(sys.argv) == 2:
