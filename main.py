@@ -44,7 +44,7 @@ if __name__ == "__main__":
         else:
             print(c/b * -1)
     elif MaxDegree == 2:
-        delta = b*b-4*a*c
+        delta = (b*b)-(4*a*c)
         if (delta > 0):
             racineDelta = delta ** 0.5
             ResOne = ((b * -1) - racineDelta) / (2 * a)
@@ -57,9 +57,8 @@ if __name__ == "__main__":
             print('Discriminant is strictly null, the two solutions are:')
             print('%9.6f | Fraction : ' %res, Fraction(res).limit_denominator(1000))
         else:
-            racineDelta = delta ** 0.5
             print('Discriminant is strictly negative, the two solutions are:')
-            print('-' + str(a) + ' + i√' + str(delta) + ' / 2 * ' + str(a))
-            print('-' + str(a) + ' - i√' + str(delta) + ' / 2 * ' + str(a))
+            print('-' + str(int(a)) + ' + i√' + str(delta) + ' / 2 * ' + str(int(a)))
+            print('-' + str(int(a)) + ' - i√' + str(delta) + ' / 2 * ' + str(int(a)))
     elif MaxDegree == 3:
         print("The polynomial degree is stricly greater than 2, I can't solve.")
