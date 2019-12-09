@@ -55,12 +55,12 @@ def GetData(arg, i):
     try:
         value = float(arg[i - 2])
     except ValueError:
-        print('Mauvais type de données (nombre) : ' + arg[i - 2])
+        print('Wrong data (number) : ' + arg[i - 2])
         exit()
     try:
         degree = int(arg[i].split('^')[1])
     except:
-        print('Mauvais type de données (degrés) : ' + arg[i].split('^')[1])
+        print('Wrong data (degree) : ' + arg[i].split('^')[1])
         exit()
     if i > 2 and arg[i - 3] == '-':
         value *= -1
@@ -68,7 +68,7 @@ def GetData(arg, i):
     else:
         sign = ' + '
     if degree < 0:
-        print('Puissance négative : ' + arg[i].split('^')[1])
+        print('Negative power : ' + arg[i].split('^')[1])
         exit()
     return value, degree, sign
 
@@ -82,12 +82,18 @@ def GetParam(arg):
         print('No equal sign')
         exit()
     for i, elem in enumerate(BeforeEqual):
-        if "X^" in elem and i >= 2:
+        if "X^" in elem:
+            if i < 2:
+                print("No value for %s" %elem)
+                exit()
             value, degree, sign = GetData(BeforeEqual, i)
             values.append(Element(value, degree, sign))
     AfterEqual = calcul[1].split()
     for i, elem in enumerate(AfterEqual):
-        if "X^" in elem and i >= 2:
+        if "X^" in elem:
+            if i < 2:
+                print("No value for %s" %elem)
+                exit()
             push = 0
             for elm in values:
                 nb, degree, sign = GetData(AfterEqual, i)
