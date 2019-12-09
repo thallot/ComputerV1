@@ -31,16 +31,15 @@ if __name__ == "__main__":
     a, b, c = ReducedForm(values)
     if MaxDegree == 0:
         if c == 0:
-            print("All reel numbers are solution")
+            print("All reel numbers are solution ( ∀ x ∈ ℝ  x est solution)")
         else:
-            print('The solution is:')
-            print('0')
+            print('The solution is:\n0')
     elif MaxDegree == 1:
         print('The solution is:')
         if b == 0 and c !=0:
             print("0")
         elif b == 0 and c == 0:
-            print("All reel numbers are solution")
+            print("All reel numbers are solution ( ∀ x ∈ ℝ  x est solution)")
         else:
             print(c/b * -1)
     elif MaxDegree == 2:
