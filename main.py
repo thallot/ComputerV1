@@ -2,7 +2,7 @@ import sys
 from fractions import Fraction
 from parsing import *
 
-def reduced_form(values):
+def ReducedForm(values):
     a = float(0)
     b = float(0)
     c = float(0)
@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     MaxDegree = values[len(values) - 1].degree
     print("Polynomial degree:", MaxDegree)
-    a, b, c = reduced_form(values)
+    a, b, c = ReducedForm(values)
     if MaxDegree == 0:
         if c == 0:
             print("All reel numbers are solution")
