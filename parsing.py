@@ -15,7 +15,12 @@ class Element(object):
 
     def __repr__(self):
         """Quand on entre notre objet dans l'interpréteur"""
-        return "{}{} * X^{}".format(self.sign, formatNumber(abs(self.value)), self.degree)
+        if self.degree == 0:
+            return "{}{}".format(self.sign, formatNumber(abs(self.value)))
+        elif self.degree == 1:
+            return "{}{} * X".format(self.sign, formatNumber(abs(self.value)), self.degree)
+        else:
+            return "{}{} * X^{}".format(self.sign, formatNumber(abs(self.value)), self.degree)
 
 def formatNumber(num):
     """ Pour enlever les 0 inutiles sur les float """
@@ -24,23 +29,47 @@ def formatNumber(num):
     else:
         return num
 
+def ParseParam(sys):
+    """ Parse les parametre en entrée et retourne le resultat"""
+    verbose = 0
+    if len(sys.argv) == 1:
+        arg = input('Entrez votre polynome\n')
+        values = GetParam(arg)
+    else:
+        if len(sys.argv) == 2:
+            values = GetParam(sys.argv[1])
+        else:
+            if sys.argv[1] == '-v':
+                verbose = 1
+                values = GetParam(sys.argv[2])
+            elif sys.argv[2] == '-v':
+                verbose = 1
+                values = GetParam(sys.argv[1])
+            else:
+                print('Usage : \n python3 main.py [-v]["Equation"]')
+                exit()
+    return verbose, values
+
 def GetData(arg, i):
     """ Retourne le nombre, son signe et son exposant """
     try:
         value = float(arg[i - 2])
     except ValueError:
-        print('4 Mauvais type de données : ' + BeforeEqual[i - 2])
+        print('Mauvais type de données (nombre) : ' + arg[i - 2])
         exit()
     try:
         degree = int(arg[i].split('^')[1])
     except:
-        print('3 Mauvais type de données : ' + BeforeEqual[i].split('^')[1])
+        print('Mauvais type de données (degrés) : ' + arg[i].split('^')[1])
         exit()
     if i > 2 and arg[i - 3] == '-':
         value *= -1
         sign = ' - '
     else:
         sign = ' + '
+    if degree < 0:
+        print('Puissance négative : ' + arg[i].split('^')[1])
+        exit()
     return value, degree, sign
 
 
