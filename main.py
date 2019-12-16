@@ -27,12 +27,27 @@ def ReducedForm(values):
     print(' = 0')
     return (a,b,c)
 
+def printReducedForm(values):
+    i = 2
+    print('Reduced Form :', end=' ')
+    while i >= 0:
+        if values[i] != 0 and i == 2:
+            print('%+dX^2' %values[i], end = ' ')
+        elif values[i] != 0 and i == 1:
+            print('%+dX' %values[i], end = ' ')
+        if values[i] != 0 and i == 0:
+            print('%+dX' %values[i], end = ' ')
+        i -= 1
+    print('= 0')
+
 if __name__ == "__main__":
     """ Main fonction : Donne le resultat d'un polynome """
-    verbose, values = ParseParam(sys)
-    MaxDegree = values[len(values) - 1].degree
+    verbose, values, MaxDegree = ParseParam(sys)
+    a = values[2]
+    b = values[1]
+    c = values[0]
+    printReducedForm(values)
     print("Polynomial degree:", MaxDegree)
-    a, b, c = ReducedForm(values)
     if MaxDegree == 0:
         if c == 0:
             print("All reel numbers are solution ( ∀ x ∈ ℝ  x est solution)")

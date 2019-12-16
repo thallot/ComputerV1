@@ -1,9 +1,9 @@
-class Element(object):
+import re
+
+class Variable(object):
     """docstring for Element."""
-    def __init__(self, value, degree, sign):
-        self.value = value
-        self.degree = degree
-        self.sign = sign
+    def __init__(self, string, revSign = False):
+        self.value, self.degree, self.sign = self.getValue(string, revSign)
 
     def __sub__ (self, nb):
         """Quand on soustrait deux objets"""
@@ -22,6 +22,18 @@ class Element(object):
         else:
             return "{}{} * X^{}".format(self.sign, formatNumber(abs(self.value)), self.degree)
 
+    def getValue(self, string, revSign):
+        tmp = string.replace('*', '').replace('^', '').split('X')
+        value = float(tmp[0])
+        degree = int(tmp[1])
+        if revSign:
+            value = -value
+        if value >= 0:
+            sign = '+'
+        else:
+            sign = '-'
+        return value, degree, sign
+
 def formatNumber(num):
     """ Pour enlever les 0 inutiles sur les float """
     if num % 1 == 0:
@@ -34,83 +46,55 @@ def ParseParam(sys):
     verbose = 0
     if len(sys.argv) == 1:
         arg = input('Enter data\n')
-        values = GetParam(arg)
+        values, MaxDegree = GetParam(arg)
     else:
         if len(sys.argv) == 2:
-            values = GetParam(sys.argv[1])
+            values, MaxDegree = GetParam(sys.argv[1])
         else:
             if sys.argv[1] == '-v':
                 verbose = 1
-                values = GetParam(sys.argv[2])
+                values, MaxDegree = GetParam(sys.argv[2])
             elif sys.argv[2] == '-v':
                 verbose = 1
-                values = GetParam(sys.argv[1])
+                values, MaxDegree = GetParam(sys.argv[1])
             else:
                 print('Usage : \n python3 main.py [-v]["Equation"]')
                 exit()
-    return verbose, values
-
-def GetData(arg, i):
-    """ Retourne le nombre, son signe et son exposant """
-    try:
-        value = float(arg[i - 2])
-    except ValueError:
-        print('Wrong data (number) : ' + arg[i - 2])
-        exit()
-    try:
-        degree = int(arg[i].split('^')[1])
-    except:
-        print('Wrong data (degree) : ' + arg[i].split('^')[1])
-        exit()
-    if i > 2 and arg[i - 3] == '-':
-        value *= -1
-        sign = ' - '
-    else:
-        sign = ' + '
-    if degree < 0:
-        print('Negative power : ' + arg[i].split('^')[1])
-        exit()
-    return value, degree, sign
-
+    return verbose, values, MaxDegree
 
 def GetParam(arg):
     """ Recup les nombre et leur exposant puis les insert dans une liste """
     calcul = arg.split('=')
-    BeforeEqual = calcul[0].split()
-    values = []
     if len(calcul) == 1:
         print('No equal sign')
         exit()
-    for i, elem in enumerate(BeforeEqual):
-        if "X^" in elem:
-            if i < 2:
-                print("No value for %s" %elem)
-                exit()
-            value, degree, sign = GetData(BeforeEqual, i)
-            values.append(Element(value, degree, sign))
-    AfterEqual = calcul[1].split()
-    for i, elem in enumerate(AfterEqual):
-        if "X^" in elem:
-            if i < 2:
-                print("No value for %s" %elem)
-                exit()
-            push = 0
-            for elm in values:
-                nb, degree, sign = GetData(AfterEqual, i)
-                if degree == elm.degree:
-                    elm = elm - nb
-                    push = 1
-            if push == 0:
-                value, degree, sign = GetData(AfterEqual, i)
-                value *= -1
-                if sign == ' + ':
-                    sign = ' - '
-                else:
-                    sign = ' + '
-                values.append(Element(value, degree, sign))
-    if (len(values) == 0):
-        print("Wrong input")
-        exit()
-    values.sort( key=lambda Element: Element.degree)
-    values[0].sign = ''
-    return (values)
+    Before = calcul[0].replace(' ', '')
+    After = calcul[1].replace(' ', '')
+    BeforeEqual = calcul[0].split()
+    partOne = re.findall('\-?\d+\*X\^*\d*', Before)
+    partTwo = re.findall('\-?\d+\*X\^*\d*', After)
+    values = []
+    for token in partOne:
+        values.append(Variable(token))
+    for token in partTwo:
+        values.append(Variable(token))
+    power = [0.0,0.0,0.0]
+    MaxDegree = -1
+    for token in values:
+        if token.degree == 0:
+            power[0] += token.value
+        elif token.degree == 1:
+            power[1] += token.value
+        elif token.degree == 0:
+            power[2] += token.value
+        else:
+            MaxDegree = token.degree
+    if MaxDegree == -1:
+        if not power[2] == 0:
+            MaxDegree = 2
+        elif not power[1] == 0:
+            MaxDegree = 1
+        elif not power[0] == 0:
+            MaxDegree = 0
+
+    return power, MaxDegree
