@@ -1,7 +1,7 @@
 import re
 
 class Variable(object):
-    """docstring for Element."""
+    """docstring for Variable."""
     def __init__(self, string, revSign = False):
         try:
             self.value, self.degree, self.sign = self.getValue(string, revSign)
@@ -9,7 +9,11 @@ class Variable(object):
             print("Invalid Input")
             exit()
 
+    def __repr__(self):
+        return ('{} * X ^ {}' .format(self.value, self.degree))
+
     def getValue(self, string, revSign):
+        """ Recupere le signe, la valeur et l'exposant d'un element """
         tmp = string.replace('*', '').replace('^', '').split('X')
         value = float(tmp[0])
         degree = int(tmp[1])
@@ -79,24 +83,13 @@ def GetParam(arg):
         values.append(Variable(token))
     for token in partTwo:
         values.append(Variable(token, True))
-    power = [0.0,0.0,0.0]
-    MaxDegree = -2
+    values.sort(key=lambda Variable: Variable.degree)
+    for i, token in enumerate(values):
+        if i + 1 < len(values) and values[i].degree == values[i + 1].degree:
+            values[i].value += values[i + 1].value
+            del values[i + 1]
     if not len(values):
         MaxDegree = -1
-    for token in values:
-        if token.degree == 0:
-            power[0] += token.value
-        elif token.degree == 1:
-            power[1] += token.value
-        elif token.degree == 2:
-            power[2] += token.value
-        else:
-            MaxDegree = token.degree
-    if MaxDegree == -1 or MaxDegree == -2:
-        if not power[2] == 0:
-            MaxDegree = 2
-        elif not power[1] == 0:
-            MaxDegree = 1
-        elif not power[0] == 0:
-            MaxDegree = 0
-    return power, MaxDegree
+    else:
+        MaxDegree = values[-1].degree
+    return values, MaxDegree

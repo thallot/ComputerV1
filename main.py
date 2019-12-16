@@ -30,26 +30,13 @@ def ReducedForm(values):
     return (a,b,c)
 
 def printReducedForm(values):
-    i = 2
-    print('Reduced Form :', end=' ')
-    while i >= 0:
-        if values[i] != 0 and i == 2:
-            if values[i] % 1 == 0:
-                print('%0+d * X^2' %values[i], end = ' ')
-            else:
-                print('%0+.1f * X^2' %values[i], end = ' ')
-        elif values[i] != 0 and i == 1:
-            if values[i] % 1 == 0:
-                print('%0+dX' %values[i], end = ' ')
-            else:
-                print('%0+.1f * X' %values[i], end = ' ')
-        if values[i] != 0 and i == 0:
-            if values[i] % 1 == 0:
-                print('%0+d' %values[i], end = ' ')
-            else:
-                print('%0+.1f' %values[i], end = ' ')
-        i -= 1
-    print('= 0')
+    reduced = ""
+    for i, token in enumerate(values):
+        if token.sign == '-':
+            reduced += str(token.value) + ' * X ^' + str(token.degree) + ' '
+        else:
+            reduced += token.sign + str(token.value) + ' * X ^' + str(token.degree) + ' '
+    print(reduced)
 
 def Display(power):
     """ Affiche la fonction sur un graphe """
@@ -67,9 +54,9 @@ if __name__ == "__main__":
     param, values, MaxDegree = ParseParam(sys)
     verbose = param[0]
     display = param[1]
-    a = values[2]
-    b = values[1]
-    c = values[0]
+    a = values[2].value
+    b = values[1].value
+    c = values[0].value
     if MaxDegree == -2:
         print("All reel numbers are solution ( ∀ x ∈ ℝ  x est solution)")
         exit()
