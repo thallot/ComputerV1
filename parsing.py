@@ -30,24 +30,38 @@ def formatNumber(num):
 
 def ParseParam(sys):
     """ Parse les parametre en entrée et retourne le resultat"""
-    verbose = 0
+    param = [0, 0]
     if len(sys.argv) == 1:
         arg = input('> Enter data\n')
         values, MaxDegree = GetParam(arg)
     else:
         if len(sys.argv) == 2:
-            values, MaxDegree = GetParam(sys.argv[1])
+            if sys.argv[1][0] == '-':
+                if 'v' in sys.argv[1]:
+                    param[0] = 1
+                if 'd' in sys.argv[1]:
+                    param[1] = 1
+                arg = input('> Enter data\n')
+                values, MaxDegree = GetParam(arg)
+            else:
+                param, values, MaxDegree = GetParam(sys.argv[1])
         else:
-            if sys.argv[1] == '-v':
-                verbose = 1
+            if sys.argv[1][0] == '-':
+                if 'v' in sys.argv[1]:
+                    param[0] = 1
+                if 'd' in sys.argv[1]:
+                    param[1] = 1
                 values, MaxDegree = GetParam(sys.argv[2])
-            elif sys.argv[2] == '-v':
-                verbose = 1
+            elif sys.argv[2][0] == '-':
+                if 'v' in sys.argv[2]:
+                    param[0] = 1
+                if 'd' in sys.argv[2]:
+                    param[1] = 1
                 values, MaxDegree = GetParam(sys.argv[1])
             else:
                 print('Usage : \n python3 main.py [-v]["Equation"]')
                 exit()
-    return verbose, values, MaxDegree
+    return param, values, MaxDegree
 
 def GetParam(arg):
     """ Recup les nombre et leur exposant puis les insert dans une liste """

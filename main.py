@@ -1,14 +1,16 @@
 """ Calculatrice de polynome : Computor V1
 
 Bonus : Forme fraction
-        Forme réduite sans X^0 et X^1
         Le parsing retourne un message en cas d'erreur
         Ajout de -v (verbose) qui affiche les calculs
+        Ajout de -d pour afficher le polynome sur un graphique
 """
 
 import sys
 from fractions import Fraction
 from parsing import *
+import matplotlib.pyplot as plt
+import numpy as np
 
 def ReducedForm(values):
     """ Retourne a b et c. Puis affiche l'équation sous forme réduite """
@@ -49,9 +51,26 @@ def printReducedForm(values):
         i -= 1
     print('= 0')
 
+def Display(power):
+    """ Affiche la fonction sur un graphe """
+    x = np.arange(-10,10,0.1)
+    y = power[2] * x ** 2 + power[1] * x + power[0]
+
+    plt.grid()
+    plt.xlim(-10,10)
+    plt.ylim(-10,10)
+    plt.title("Tracer une fonction avec matplotlib")
+
+    plt.plot(x,y)
+
+    plt.savefig('plot_function_matplotlib.png')
+    plt.show()
+
 if __name__ == "__main__":
     """ Main fonction : Donne le resultat d'un polynome """
-    verbose, values, MaxDegree = ParseParam(sys)
+    param, values, MaxDegree = ParseParam(sys)
+    verbose = param[0]
+    display = param[1]
     a = values[2]
     b = values[1]
     c = values[0]
@@ -81,6 +100,8 @@ if __name__ == "__main__":
                 print("     Result = " + str(c/b * -1))
             else:
                 print(c/b * -1)
+        if display == 1:
+            Display(values)
     elif MaxDegree == 2:
         delta = (b*b)-(4*a*c)
         if (delta > 0):
@@ -115,5 +136,7 @@ if __name__ == "__main__":
             print('Discriminant is strictly negative, the two solutions are:')
             print('-' + str(int(b)) + ' + i√' + str(delta) + ' / 2 * ' + str(int(a)))
             print('-' + str(int(b)) + ' - i√' + str(delta) + ' / 2 * ' + str(int(a)))
+        if display == 1:
+            Display(values)
     elif MaxDegree == 3:
         print("The polynomial degree is stricly greater than 2, I can't solve.")
