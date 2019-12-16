@@ -70,8 +70,12 @@ if __name__ == "__main__":
         delta = (b*b)-(4*a*c)
         if (delta > 0):
             racineDelta = delta ** 0.5
-            ResOne = ((b * -1) - racineDelta) / (2 * a)
-            ResTwo = ((b * -1) + racineDelta) / (2 * a)
+            if not a == 0:
+                ResOne = ((b * -1) - racineDelta) / (2 * a)
+                ResTwo = ((b * -1) + racineDelta) / (2 * a)
+            else:
+                ResOne = 0
+                ResTwo = 0
             if verbose == 1:
                 print("\nCalcul : \n")
                 print("     Delta = (" + str(b) + ")² - 4 * " + str(a) + " * " + str(c))
@@ -86,8 +90,11 @@ if __name__ == "__main__":
             print('%9.6f | Fraction : ' %ResOne, Fraction(ResOne).limit_denominator(100))
             print('%9.6f | Fraction : ' %ResTwo, Fraction(ResTwo).limit_denominator(100))
         elif delta == 0:
-            res =-b/(2*a)
-            print('Discriminant is strictly null, the two solutions are:')
+            if not a == 0:
+                res =-b/(2*a)
+            else:
+                res = 0
+            print('Discriminant is strictly null, solutions is:')
             print('%9.6f | Fraction : ' %res, Fraction(res).limit_denominator(1000))
         else:
             print('Discriminant is strictly negative, the two solutions are:')

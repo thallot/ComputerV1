@@ -45,7 +45,7 @@ def ParseParam(sys):
     """ Parse les parametre en entrée et retourne le resultat"""
     verbose = 0
     if len(sys.argv) == 1:
-        arg = input('Enter data\n')
+        arg = input('> Enter data\n')
         values, MaxDegree = GetParam(arg)
     else:
         if len(sys.argv) == 2:
@@ -96,5 +96,4 @@ def GetParam(arg):
             MaxDegree = 1
         elif not power[0] == 0:
             MaxDegree = 0
-
     return power, MaxDegree
