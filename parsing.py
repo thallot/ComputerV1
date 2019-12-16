@@ -3,24 +3,11 @@ import re
 class Variable(object):
     """docstring for Element."""
     def __init__(self, string, revSign = False):
-        self.value, self.degree, self.sign = self.getValue(string, revSign)
-
-    def __sub__ (self, nb):
-        """Quand on soustrait deux objets"""
-        if self.value >= 0 and self.value - nb < 0:
-            self.sign = ' - '
-        if self.value < 0 and self.value - nb >= 0:
-            self.sign = ' + '
-        self.value -= nb
-
-    def __repr__(self):
-        """Quand on entre notre objet dans l'interpréteur"""
-        if self.degree == 0:
-            return "{}{}".format(self.sign, formatNumber(abs(self.value)))
-        elif self.degree == 1:
-            return "{}{} * X".format(self.sign, formatNumber(abs(self.value)), self.degree)
-        else:
-            return "{}{} * X^{}".format(self.sign, formatNumber(abs(self.value)), self.degree)
+        try:
+            self.value, self.degree, self.sign = self.getValue(string, revSign)
+        except:
+            print("Invalid Input")
+            exit()
 
     def getValue(self, string, revSign):
         tmp = string.replace('*', '').replace('^', '').split('X')
@@ -71,25 +58,27 @@ def GetParam(arg):
     Before = calcul[0].replace(' ', '')
     After = calcul[1].replace(' ', '')
     BeforeEqual = calcul[0].split()
-    partOne = re.findall('\-?\d+\*X\^*\d*', Before)
-    partTwo = re.findall('\-?\d+\*X\^*\d*', After)
+    partOne = re.findall('\-?[\d+\.]*\d+\*X\^*\d*', Before)
+    partTwo = re.findall('\-?[\d+\.]*\d+\*X\^*\d*', After)
     values = []
     for token in partOne:
         values.append(Variable(token))
     for token in partTwo:
-        values.append(Variable(token))
+        values.append(Variable(token, True))
     power = [0.0,0.0,0.0]
-    MaxDegree = -1
+    MaxDegree = -2
+    if not len(values):
+        MaxDegree = -1
     for token in values:
         if token.degree == 0:
             power[0] += token.value
         elif token.degree == 1:
             power[1] += token.value
-        elif token.degree == 0:
+        elif token.degree == 2:
             power[2] += token.value
         else:
             MaxDegree = token.degree
-    if MaxDegree == -1:
+    if MaxDegree == -1 or MaxDegree == -2:
         if not power[2] == 0:
             MaxDegree = 2
         elif not power[1] == 0:

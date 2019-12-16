@@ -32,11 +32,20 @@ def printReducedForm(values):
     print('Reduced Form :', end=' ')
     while i >= 0:
         if values[i] != 0 and i == 2:
-            print('%+dX^2' %values[i], end = ' ')
+            if values[i] % 1 == 0:
+                print('%0+d * X^2' %values[i], end = ' ')
+            else:
+                print('%0+.1f * X^2' %values[i], end = ' ')
         elif values[i] != 0 and i == 1:
-            print('%+dX' %values[i], end = ' ')
+            if values[i] % 1 == 0:
+                print('%0+dX' %values[i], end = ' ')
+            else:
+                print('%0+.1f * X' %values[i], end = ' ')
         if values[i] != 0 and i == 0:
-            print('%+dX' %values[i], end = ' ')
+            if values[i] % 1 == 0:
+                print('%0+d' %values[i], end = ' ')
+            else:
+                print('%0+.1f' %values[i], end = ' ')
         i -= 1
     print('= 0')
 
@@ -46,17 +55,23 @@ if __name__ == "__main__":
     a = values[2]
     b = values[1]
     c = values[0]
+    if MaxDegree == -2:
+        print("All reel numbers are solution ( ∀ x ∈ ℝ  x est solution)")
+        exit()
+    elif MaxDegree == -1:
+        print('Input is not a polynome')
+        exit()
     printReducedForm(values)
     print("Polynomial degree:", MaxDegree)
     if MaxDegree == 0:
         if c == 0:
             print("All reel numbers are solution ( ∀ x ∈ ℝ  x est solution)")
         else:
-            print('The solution is:\n0')
+            print('No solution')
     elif MaxDegree == 1:
         print('The solution is:')
-        if b == 0 and c !=0:
-            print("0")
+        if b == 0 and c != 0:
+            print("No solution")
         elif b == 0 and c == 0:
             print("All reel numbers are solution ( ∀ x ∈ ℝ  x est solution)")
         else:
