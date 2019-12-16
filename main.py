@@ -55,15 +55,11 @@ def Display(power):
     """ Affiche la fonction sur un graphe """
     x = np.arange(-10,10,0.1)
     y = power[2] * x ** 2 + power[1] * x + power[0]
-
     plt.grid()
     plt.xlim(-10,10)
     plt.ylim(-10,10)
-    plt.title("Tracer une fonction avec matplotlib")
-
+    plt.title("Representation du polynome")
     plt.plot(x,y)
-
-    plt.savefig('plot_function_matplotlib.png')
     plt.show()
 
 if __name__ == "__main__":
