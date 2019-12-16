@@ -76,7 +76,7 @@ if __name__ == "__main__":
             print('%9.6f | Fraction : ' %res, Fraction(res).limit_denominator(1000))
         else:
             print('Discriminant is strictly negative, the two solutions are:')
-            print('-' + str(int(a)) + ' + i√' + str(delta) + ' / 2 * ' + str(int(a)))
-            print('-' + str(int(a)) + ' - i√' + str(delta) + ' / 2 * ' + str(int(a)))
+            print('-' + str(int(b)) + ' + i√' + str(delta) + ' / 2 * ' + str(int(a)))
+            print('-' + str(int(b)) + ' - i√' + str(delta) + ' / 2 * ' + str(int(a)))
     elif MaxDegree == 3:
         print("The polynomial degree is stricly greater than 2, I can't solve.")
