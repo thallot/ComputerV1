@@ -12,12 +12,11 @@ from parsing import *
 import matplotlib.pyplot as plt
 import numpy as np
 
-def ReducedForm(values):
-    """ Retourne a b et c. Puis affiche l'équation sous forme réduite """
+def getABC(values):
+    """ Retourne a b et c."""
     a = float(0)
     b = float(0)
     c = float(0)
-    print("Reduced form:", end=' ')
     for i, elem in enumerate(values):
         if (elem.degree == 0):
             c = elem.value
@@ -25,17 +24,15 @@ def ReducedForm(values):
             b = elem.value
         elif (elem.degree == 2):
             a = elem.value
-        print(elem, end='')
-    print(' = 0')
     return (a,b,c)
 
 def printReducedForm(values):
     reduced = ""
     for i, token in enumerate(values):
         if token.sign == '-':
-            reduced += str(token.value) + ' * X ^' + str(token.degree) + ' '
+            reduced += str(token.value) + ' * X ^ ' + str(token.degree) + ' '
         else:
-            reduced += token.sign + str(token.value) + ' * X ^' + str(token.degree) + ' '
+            reduced += token.sign + str(token.value) + ' * X ^ ' + str(token.degree) + ' '
     print(reduced)
 
 def Display(power):
@@ -54,9 +51,7 @@ if __name__ == "__main__":
     param, values, MaxDegree = ParseParam(sys)
     verbose = param[0]
     display = param[1]
-    a = values[2].value
-    b = values[1].value
-    c = values[0].value
+    a, b, c = getABC(values)
     if MaxDegree == -2:
         print("All reel numbers are solution ( ∀ x ∈ ℝ  x est solution)")
         exit()
